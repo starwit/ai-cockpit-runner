@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   viewBox="0 0 200 100"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="Starwit-Technolodies.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   inkscape:export-filename="Starwit-Technolodies.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.2598564"
+     inkscape:cx="360.35854"
+     inkscape:cy="279.00006"
+     inkscape:window-width="2560"
+     inkscape:window-height="1368"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g138"
+       transform="matrix(0.10522039,0,0,0.10522039,8.5586827,13.79388)">
+      <g
+         id="g14">
+	<polygon
+   class="st0"
+   points="201,429 198.9,37.8 531.5,232.1 "
+   id="polygon4"
+   style="fill:#f48326" />
+
+	<polygon
+   class="st1"
+   points="199.4,233.4 28.1,134.3 198.9,37.8 "
+   id="polygon6"
+   style="fill:#ffcb04" />
+
+	<polygon
+   class="st2"
+   points="201,428.5 29.4,329.1 199.4,233.4 "
+   id="polygon8"
+   style="fill:#1eb4e7" />
+
+	<polygon
+   class="st1"
+   points="372.2,528.4 201,428.5 371,327 "
+   id="polygon10"
+   style="fill:#ffcb04" />
+
+	<polygon
+   class="st2"
+   points="531.5,232.1 359.9,132.3 530.7,30.8 "
+   id="polygon12"
+   style="fill:#1eb4e7" />
+
+</g>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.2736px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#f48326;fill-opacity:1;stroke-width:1.10613"
+       x="51.76318"
+       y="61.688797"
+       id="text238"><tspan
+         sodipodi:role="line"
+         id="tspan236"
+         style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.27359932px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#f48326;fill-opacity:1;stroke-width:1.10613"
+         x="51.76318"
+         y="61.688797">Starwit Technologies</tspan></text>
+  </g>
+</svg>

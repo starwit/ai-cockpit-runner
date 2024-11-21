@@ -1,0 +1,60 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:svg="clr-namespace:Avalonia.Svg;assembly=Avalonia.Svg"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="cockpit_runner.MainWindow"
+        Title="cockpit_runner">
+    <Grid x:Name="global">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="1.5*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" CornerRadius="1" BorderBrush="Gray" Background="White" BorderThickness="1">
+            <Label FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" >AI Cockpit Runner</Label>
+        </Border>
+        <Grid Grid.Row="1" x:Name="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" CornerRadius="1" BorderBrush="Gray" Background="White" BorderThickness="1">
+                <Grid x:Name="PreReq">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="5*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" >Pre-Requisites</Label>
+                    <ScrollViewer Grid.Row="1" x:Name="PreReqOutputScroller">
+                        <TextBlock x:Name="PreReqOutput" />
+                    </ScrollViewer>
+                    <Button Grid.Row="2" VerticalAlignment="Center" Margin="5,1,0,1" Click="Button_Click" x:Name="Check_Prerequisits">Check</Button>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="1" CornerRadius="1" BorderBrush="Gray" Background="White" BorderThickness="1">
+                <Grid x:Name="Action">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="5*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" >Action</Label>
+                    <ScrollViewer Grid.Row="1" x:Name="ActionOutputScroller">
+                        <TextBlock x:Name="ActionOutput" />
+                    </ScrollViewer>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">  
+                        <Button VerticalAlignment="Top" Margin="5,1,0,1" Click="StartStopCockpit_Click" x:Name="StartStopCockpit">Start Cockpit</Button>
+                        <Label VerticalAlignment="Top" Margin="5,1,0,1" FontSize="12" >Scenario</Label>
+                        <ComboBox VerticalAlignment="Top" Margin="5,1,0,1" Width="100" x:Name="SelectScenario" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <Image Grid.Row="2"  Name="svgExtensionImage" Source="{SvgImage /assets/Starwit.svg}" />
+    </Grid>
+</Window>
