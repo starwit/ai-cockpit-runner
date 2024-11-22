@@ -1,0 +1,27 @@
+name: Build and publish latest binary
+
+on:
+  workflow_dispatch:
+
+env:
+  dotnet-version: 8.x
+
+jobs:
+  build:
+    name: "Build and publish solution"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup dotnet ${{ env.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.dotnet-version }}
+      - name: Display dotnet version
+        run: dotnet --version
+      - name: Build
+        working-directory: cockpit-runner
+        run: dotnet build
+      - name: Publish
+        working-directory: cockpit-runner
+        run: dotnet build -p:PublishProfile=Properties\PublishProfiles\ClickOnceProfile
