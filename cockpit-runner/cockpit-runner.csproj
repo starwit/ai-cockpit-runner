@@ -7,10 +7,19 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <StartupObject>cockpit_runner.Program</StartupObject>
+    <ApplicationIcon>assets\logo starwit.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="assets\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="assets\logo starwit.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\logo starwit.ico" />
   </ItemGroup>
 
   <ItemGroup>
