@@ -30,9 +30,9 @@
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" >Pre-Requisites</Label>
                     <ScrollViewer Grid.Row="1" x:Name="PreReqOutputScroller">
-                        <TextBlock x:Name="PreReqOutput" />
+                        <TextBlock x:Name="PreReqOutput" TextWrapping="Wrap" />
                     </ScrollViewer>
-                    <Button Grid.Row="2" VerticalAlignment="Center" Margin="5,1,0,1" Click="Button_Click" x:Name="Check_Prerequisits">Check</Button>
+                    <Button Grid.Row="2" VerticalAlignment="Center" Margin="5,1,0,1" Click="PreRequisites_Click" x:Name="Check_Prerequisits">Check</Button>
                 </Grid>
             </Border>
 
@@ -45,10 +45,10 @@
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" >Action</Label>
                     <ScrollViewer Grid.Row="1" x:Name="ActionOutputScroller">
-                        <TextBlock x:Name="ActionOutput" />
+                        <TextBlock x:Name="ActionOutput" TextWrapping="Wrap" />
                     </ScrollViewer>
                     <StackPanel Grid.Row="2" Orientation="Horizontal">  
-                        <Button VerticalAlignment="Top" Margin="5,1,0,1" Click="StartStopCockpit_Click" x:Name="StartStopCockpit">Start Cockpit</Button>
+                        <Button VerticalAlignment="Top" Margin="5,1,0,1" Click="StartStopCockpit_Click" x:Name="StartStopCockpitBtn">Start Cockpit</Button>
                         <Label VerticalAlignment="Top" Margin="5,1,0,1" FontSize="12" >Scenario</Label>
                         <ComboBox VerticalAlignment="Top" Margin="5,1,0,1" Width="100" x:Name="SelectScenario" />
                     </StackPanel>
