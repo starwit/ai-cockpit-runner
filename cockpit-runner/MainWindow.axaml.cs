@@ -6,6 +6,8 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using CliWrap;
 using LibGit2Sharp;
+using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace cockpit_runner;
 
@@ -21,6 +23,8 @@ public partial class MainWindow : Window
         Width = 600;
         StartStopCockpitBtn.IsEnabled = false;
 
+        CheckIfCodeiIsPresent();
+
         List<string> scenarios = new List<string>();
         scenarios.Add("Traffic");
         scenarios.Add("Garbage");
@@ -29,11 +33,10 @@ public partial class MainWindow : Window
         SelectScenario.ItemsSource = scenarios;
     }
 
-    public async void PreRequisites_Click(object sender, RoutedEventArgs args)
+    public void PreRequisites_Click(object sender, RoutedEventArgs args)
     {
         PreReqOutput.Text += "Checking pre-requisites... \n";
         CheckIfDockerIsInstalled();
-        CheckIfCodeiIsPresent();
     }
 
     private async void CheckIfDockerIsInstalled()
@@ -59,11 +62,11 @@ public partial class MainWindow : Window
         }
         catch (System.ComponentModel.Win32Exception e)
         {
-            PreReqOutput.Text += "Can't detect docker, please install Docker/Docker desktop ";
+            PreReqOutput.Text += "Can't detect docker, please install Docker/Docker desktop " + e.Message;
         }
     }
 
-    private async void StartStopCockpit_Click(object sender, RoutedEventArgs args)
+    private void StartStopCockpit_Click(object sender, RoutedEventArgs args)
     {
         var command = "up";
         CheckIfCockpitIsRunning();
@@ -77,8 +80,8 @@ public partial class MainWindow : Window
         var stdErrBuffer = new StringBuilder();
         try
         {
-            var result = await Cli.Wrap("docker")
-                .WithArguments(["compose", "-f", "docker-compose.yaml", command])
+            var result = Cli.Wrap("docker")
+                .WithArguments(["compose", "-f", "import-demo-docker-compose.yml", command])
                 .WithWorkingDirectory(composeDirectory)
                 .WithValidation(CommandResultValidation.None)
                 .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
@@ -103,7 +106,7 @@ public partial class MainWindow : Window
         }
         catch (System.ComponentModel.Win32Exception e)
         {
-            PreReqOutput.Text += "Can't detect docker, please install Docker/Docker desktop ";
+            PreReqOutput.Text += "Can't detect docker, please install Docker/Docker desktop " + e.Message;
         }
     }
 
@@ -114,7 +117,7 @@ public partial class MainWindow : Window
         try
         {
             var result = await Cli.Wrap("docker")
-                .WithArguments(["ps"])
+                .WithArguments(["ps", "--format json"])
                 .WithWorkingDirectory(".")
                 .WithValidation(CommandResultValidation.None)
                 .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
@@ -125,8 +128,8 @@ public partial class MainWindow : Window
             var stdErr = stdErrBuffer.ToString();
 
             ActionOutput.Text += stdOut + "\n";
-
-            if (stdOut.Contains("aic"))
+            
+            if (stdOut.Contains("ai-cockpit"))
             {
                 ActionOutput.Text += "Cockpit is running \n";
                 StartStopCockpitBtn.Content = "Stop Cockpit";
@@ -136,7 +139,7 @@ public partial class MainWindow : Window
             ActionOutput.Text += "Cockpit is not running \n";
         } catch(System.ComponentModel.Win32Exception e)
         {
-            ActionOutput.Text += "Can't run Docker, please check if is installed ";
+            ActionOutput.Text += "Can't run Docker, please check if is installed " + e.Message;
         }
         isCockpitRunning = false;
     }
@@ -147,12 +150,25 @@ public partial class MainWindow : Window
         // check if dir is empty
         if(Directory.GetFiles(cockpitDir).Length == 0 && Directory.GetDirectories(cockpitDir).Length == 0)
         {
+            PreReqOutput.Text += "Checkout code \n";
             Repository.Clone("https://github.com/starwit/ai-cockpit-deployment.git", cockpitDir);
-            PreReqOutput.Text += "Code downloaded \n";
 
         } else
         {
-            PreReqOutput.Text += "Code appears to be alread present";
+            PreReqOutput.Text += "Code appears to be alread present, clean and checkout again";
+            var signature = new Signature("Your Name", "your.email@example.com", DateTimeOffset.Now);
+            var repo = new Repository(cockpitDir);
+            Commands.Pull(repo, signature, new PullOptions());
+        }
+    }
+
+    private void setAttributesNormal(DirectoryInfo dir)
+    {
+        foreach (var subDir in dir.GetDirectories())
+            setAttributesNormal(subDir);
+        foreach (var file in dir.GetFiles())
+        {
+            file.Attributes = FileAttributes.Normal;
         }
     }
 }
