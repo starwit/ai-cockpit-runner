@@ -5,9 +5,8 @@ using System.Text;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using CliWrap;
+using cockpit_runner.docker;
 using LibGit2Sharp;
-using Newtonsoft.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace cockpit_runner;
 
@@ -15,6 +14,8 @@ public partial class MainWindow : Window
 {
     private string cockpitDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".aicockpit");
     private bool isCockpitRunning = false;
+
+    private DockerFunctions df = new DockerFunctions();
 
     public MainWindow()
     {
@@ -36,7 +37,8 @@ public partial class MainWindow : Window
     public void PreRequisites_Click(object sender, RoutedEventArgs args)
     {
         PreReqOutput.Text += "Checking pre-requisites... \n";
-        CheckIfDockerIsInstalled();
+        df.CheckIfDockerIsInstalled();
+        //CheckIfDockerIsInstalled();
     }
 
     private async void CheckIfDockerIsInstalled()
