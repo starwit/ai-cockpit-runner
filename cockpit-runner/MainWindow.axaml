@@ -55,6 +55,18 @@
                 </Grid>
             </Border>
         </Grid>
-        <Image Grid.Row="2"  Name="svgExtensionImage" Source="{SvgImage /assets/Starwit.svg}" />
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Label VerticalAlignment="Center" Margin="5,1,0,1" FontSize="12">Docker Name: </Label>
+                <Label VerticalAlignment="Center" Margin="5,1,0,1" FontSize="12" x:Name="DockerName"></Label>
+                <Label VerticalAlignment="Center" Margin="5,1,0,1" FontSize="12">Docker Version: </Label>
+                <Label VerticalAlignment="Center" Margin="5,1,0,1" FontSize="12" x:Name="DockerVersion"></Label>
+            </StackPanel>
+            <Image Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Name="svgExtensionImage" Source="{SvgImage /assets/Starwit.svg}" />
+        </Grid>
     </Grid>
 </Window>
