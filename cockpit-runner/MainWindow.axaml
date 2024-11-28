@@ -37,8 +37,14 @@
                         <RowDefinition Height="5*" />
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Vertical">
-                        <HyperlinkButton NavigateUri="http://localhost:8080/ai-cockpit" >http://localhost:8080/ai-cockpit</HyperlinkButton>
-                        <HyperlinkButton NavigateUri="http://localhost:9001">http://localhost:9001</HyperlinkButton>
+						<StackPanel Orientation="Horizontal">
+							<Label VerticalAlignment="Center" Margin="5,1,0,1" FontSize="12" >AI-Cockpit:</Label>
+							<HyperlinkButton x:Name="CockpitLink" IsEnabled="false" NavigateUri="http://localhost:8080/ai-cockpit" >http://localhost:8080/ai-cockpit</HyperlinkButton>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<Label VerticalAlignment="Center" Margin="5,1,0,1" FontSize="12" >MinIO:</Label>
+                            <HyperlinkButton x:Name="MinioLink" IsEnabled="false" NavigateUri="http://localhost:9001">http://localhost:9001</HyperlinkButton>
+						</StackPanel>
                     </StackPanel> 
                     <TextBlock Grid.Row="1" x:Name="ActionOutput" TextWrapping="Wrap" />
                 </Grid>

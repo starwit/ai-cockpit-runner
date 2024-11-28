@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
 using CliWrap;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -11,6 +13,8 @@ namespace cockpit_runner.docker;
 
 internal class DockerFunctions()
 {
+    private string dockerDesktopPath = "";
+
     private string cockpitDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".aicockpit");
 
     private MainWindow mainWindow;
@@ -22,6 +26,19 @@ internal class DockerFunctions()
     
     internal async void CheckIfDockerIsInstalled()
     {
+        if(OperatingSystem.IsWindows())
+        {
+            var isInstalled = CheckDockerDesktop();
+            if (isInstalled)
+            {
+                mainWindow.ActionOutput.Text += "Started Docker Desktop.";
+            }
+            else
+            {
+                mainWindow.ActionOutput.Text += "Could not start Docker Desktop, please install.";
+            }
+        }
+
         var stdOutBuffer = new StringBuilder();
         var stdErrBuffer = new StringBuilder();
         try
@@ -55,6 +72,23 @@ internal class DockerFunctions()
         }
     }
 
+    private bool CheckDockerDesktop()
+    {
+        var keyname = @"HKEY_LOCAL_MACHINE\SOFTWARE\Docker Inc.\Docker\1.0";
+        var valueName = "AppPath";
+        if(Registry.GetValue(keyname, valueName, null) != null)
+        {
+            dockerDesktopPath = Registry.GetValue(keyname, valueName, null).ToString();
+            if(File.Exists(dockerDesktopPath + "\\Docker Desktop.exe"))
+            {
+                var p = Process.Start(dockerDesktopPath + "\\Docker Desktop.exe");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     internal async void CheckIfCockpitIsRunning()
     {
         var stdOutBuffer = new StringBuilder();
@@ -72,18 +106,24 @@ internal class DockerFunctions()
             var stdOut = stdOutBuffer.ToString();
             var stdErr = stdErrBuffer.ToString();
             var runningComposeJobs = JsonConvert.DeserializeObject<List<DockerLS>>(stdOut);
-            foreach (var job in runningComposeJobs)
+            if (runningComposeJobs != null)
             {
-                if (job.Name == "ai-cockpit")
+                foreach (var job in runningComposeJobs)
                 {
-                    mainWindow.IsCockpitRunning = true;
-                    mainWindow.SetStartStopBtn(true);
-                    Console.WriteLine("Cockpit is running");
-                    return;
+                    if (job.Name == "ai-cockpit")
+                    {
+                        mainWindow.IsCockpitRunning = true;
+                        mainWindow.SetStartStopBtn(true);
+                        Console.WriteLine("Cockpit is running");
+                        return;
+                    }
                 }
+                mainWindow.IsCockpitRunning = false;
+                mainWindow.SetStartStopBtn(false);
+            } else
+            {
+                mainWindow.ActionOutput.Text += "Couldn't talk to Docker. Make sure Docker Desktop is running.";
             }
-            mainWindow.IsCockpitRunning = false;
-            mainWindow.SetStartStopBtn(false);
         } catch(System.ComponentModel.Win32Exception e)
         {
             Console.WriteLine("Can't run Docker, please check if is installed " + e.Message);
@@ -123,6 +163,7 @@ internal class DockerFunctions()
             PrintWithColor(stdOut, false);
             mainWindow.ToggleStartStopBtn();
             mainWindow.IsCockpitRunning = !mainWindow.IsCockpitRunning;
+            mainWindow.ToggleApplicationLinks();
         }
         catch (System.ComponentModel.Win32Exception e)
         {

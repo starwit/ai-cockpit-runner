@@ -26,9 +26,8 @@ public partial class MainWindow : Window
         Height = 400;
         Width = 600;
 
-        df.CheckIfCockpitIsRunning();
-        git.CheckIfCodeiIsPresent();
         df.CheckIfDockerIsInstalled();
+        git.CheckIfCodeiIsPresent();
         List<string> scenarios = git.GetAvailableScenarios();
         SelectScenario.ItemsSource = scenarios;
         SelectScenario.SelectedIndex = 0;
@@ -36,6 +35,7 @@ public partial class MainWindow : Window
 
     private void StartStopCockpit_Click(object sender, RoutedEventArgs args)
     {
+        df.CheckIfCockpitIsRunning();
         df.StartStopCockpit(IsCockpitRunning, SelectScenario.SelectedItem.ToString());
     }
 
@@ -59,6 +59,12 @@ public partial class MainWindow : Window
         {
             StartStopCockpitBtn.Content = "Stop Cockpit";
         }
+    }
+
+    public void ToggleApplicationLinks()
+    {
+        CockpitLink.IsEnabled = !CockpitLink.IsEnabled;
+        MinioLink.IsEnabled = !MinioLink.IsEnabled;
     }
 
     public void SetStatusPanel(string name, string version)

@@ -23,7 +23,14 @@ internal class GitAndCockpit
             // pull latest code
             var signature = new Signature("Your Name", "your.email@example.com", DateTimeOffset.Now);
             var repo = new Repository(cockpitDir);
-            Commands.Pull(repo, signature, new PullOptions());
+            try
+            {
+                Commands.Pull(repo, signature, new PullOptions());
+            } catch (LibGit2SharpException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
         }
     }
 
