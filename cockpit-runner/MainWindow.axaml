@@ -16,45 +16,36 @@
         <Border Grid.Row="0" CornerRadius="1" BorderBrush="Gray" Background="White" BorderThickness="1">
             <Label FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" >AI Cockpit Runner</Label>
         </Border>
-        <Grid Grid.Row="1" x:Name="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" CornerRadius="1" BorderBrush="Gray" Background="White" BorderThickness="1">
-                <Grid x:Name="PreReq">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*" />
-                        <RowDefinition Height="5*" />
-                        <RowDefinition Height="1*" />
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row="0" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" >Pre-Requisites</Label>
-                    <ScrollViewer Grid.Row="1" x:Name="PreReqOutputScroller">
-                        <TextBlock x:Name="PreReqOutput" TextWrapping="Wrap" />
-                    </ScrollViewer>
-                    <Button Grid.Row="2" VerticalAlignment="Center" Margin="5,1,0,1" Click="PreRequisites_Click" x:Name="Check_Prerequisits">Check</Button>
-                </Grid>
-            </Border>
 
-            <Border Grid.Column="1" CornerRadius="1" BorderBrush="Gray" Background="White" BorderThickness="1">
-                <Grid x:Name="Action">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*" />
-                        <RowDefinition Height="5*" />
-                        <RowDefinition Height="1*" />
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row="0" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" >Action</Label>
-                    <ScrollViewer Grid.Row="1" x:Name="ActionOutputScroller">
-                        <TextBlock x:Name="ActionOutput" TextWrapping="Wrap" />
-                    </ScrollViewer>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal">  
-                        <Button VerticalAlignment="Top" Margin="5,1,0,1" Click="StartStopCockpit_Click" x:Name="StartStopCockpitBtn">Start Cockpit</Button>
-                        <Label VerticalAlignment="Top" Margin="5,1,0,1" FontSize="12" >Scenario</Label>
-                        <ComboBox VerticalAlignment="Top" Margin="5,1,0,1" Width="100" x:Name="SelectScenario" />
-                    </StackPanel>
-                </Grid>
+        
+        <Grid Grid.Row="1" x:Name="Action">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="5*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" CornerRadius="1" BorderBrush="Gray" Background="White" BorderThickness="1">
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <Button VerticalAlignment="Center" Margin="5,1,0,1" Click="StartStopCockpit_Click" x:Name="StartStopCockpitBtn">Start Cockpit</Button>
+                    <Label VerticalAlignment="Center" Margin="5,1,0,1" FontSize="12" >Scenario</Label>
+                    <ComboBox VerticalAlignment="Center" Margin="5,1,0,1" Width="100" x:Name="SelectScenario" />
+                </StackPanel>
             </Border>
+            <ScrollViewer Grid.Row="1" x:Name="ActionOutputScroller">
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="5*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Vertical">
+                        <HyperlinkButton NavigateUri="http://localhost:8080/ai-cockpit" >http://localhost:8080/ai-cockpit</HyperlinkButton>
+                        <HyperlinkButton NavigateUri="http://localhost:9001">http://localhost:9001</HyperlinkButton>
+                    </StackPanel> 
+                    <TextBlock Grid.Row="1" x:Name="ActionOutput" TextWrapping="Wrap" />
+                </Grid>
+            </ScrollViewer>                
         </Grid>
+        
+
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

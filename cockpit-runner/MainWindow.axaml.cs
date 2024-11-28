@@ -28,26 +28,15 @@ public partial class MainWindow : Window
 
         df.CheckIfCockpitIsRunning();
         git.CheckIfCodeiIsPresent();
+        df.CheckIfDockerIsInstalled();
         List<string> scenarios = git.GetAvailableScenarios();
         SelectScenario.ItemsSource = scenarios;
-    }
-
-    public void PreRequisites_Click(object sender, RoutedEventArgs args)
-    {
-        df.CheckIfDockerIsInstalled();
-        df.CheckIfCockpitIsRunning();
+        SelectScenario.SelectedIndex = 0;
     }
 
     private void StartStopCockpit_Click(object sender, RoutedEventArgs args)
     {
-        var command = "up";
-        df.CheckIfCockpitIsRunning();
-        if(IsCockpitRunning == true)
-        {
-            command = "down";
-        }
-
-        df.StartStopCockpit(command);
+        df.StartStopCockpit(IsCockpitRunning, SelectScenario.SelectedItem.ToString());
     }
 
     public void SetStartStopBtn(bool isRunning)

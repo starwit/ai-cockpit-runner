@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 using CliWrap;
 using Newtonsoft.Json;
@@ -89,22 +90,28 @@ internal class DockerFunctions()
         }
     }
 
-    internal async void StartStopCockpit(string upOrDown)
+    internal async void StartStopCockpit(bool isRunning, string scenario)
     {
+        string[] arguments;
+        if(isRunning)
+        {
+            arguments = new string[5]{"compose", "-f", "import-demo-docker-compose.yml", "down", "-v"};
+        } else
+        {
+            arguments = new string[5]{"compose", "-f", "import-demo-docker-compose.yml", "up", "-d"};
+        }
+
+        Console.WriteLine("Commanding cockpit to " + arguments);
         var composeDirectory = Path.Combine(cockpitDir, "docker-compose");
         var stdOutBuffer = new StringBuilder();
         var stdErrBuffer = new StringBuilder();
         try
         {
-            string[] arguments = {"compose", "-f", "import-demo-docker-compose.yml", upOrDown};
-            if (upOrDown == "up")
-            {
-                arguments = ["compose", "-f", "import-demo-docker-compose.yml", upOrDown, "-d"];
-            }
-
             var result = await Cli.Wrap("docker")
                 .WithArguments(arguments)
-                .WithWorkingDirectory(cockpitDir)
+                .WithWorkingDirectory(composeDirectory)
+                .WithEnvironmentVariables(env => env
+                    .Set("scenario", scenario))
                 .WithValidation(CommandResultValidation.None)
                 .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
                 .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
@@ -112,13 +119,28 @@ internal class DockerFunctions()
 
             var stdOut = stdOutBuffer.ToString();
             var stdErr = stdErrBuffer.ToString();
-            Console.WriteLine(stdErr);
-            Console.WriteLine(stdOut);
+            PrintWithColor(stdErr, true);
+            PrintWithColor(stdOut, false);
             mainWindow.ToggleStartStopBtn();
+            mainWindow.IsCockpitRunning = !mainWindow.IsCockpitRunning;
         }
         catch (System.ComponentModel.Win32Exception e)
         {
             Console.WriteLine("Can't run Docker, please check if is installed " + e.Message);
+        }
+    }
+
+    private void PrintWithColor(string text, bool isError)
+    {
+        if (isError)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
+        else
+        {
+            Console.WriteLine(text);
         }
     }
 }
