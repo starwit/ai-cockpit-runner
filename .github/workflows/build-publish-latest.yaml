@@ -24,4 +24,4 @@ jobs:
         run: dotnet build
       - name: Publish
         working-directory: cockpit-runner
-        run: dotnet build -p:PublishProfile=Properties\PublishProfiles\ClickOnceProfile
+        run: dotnet publish -r win-x64 -c Release
