@@ -32,4 +32,4 @@ This project was funded by the government of the federal republic of Germany. It
 
 # License
 
-Software in this repository is licensed under the MIT license. See [license agreement](LICENSE) for more details.
+Software in this repository is licensed under the AGPL-3.0 license. See [license agreement](LICENSE) for more details.
