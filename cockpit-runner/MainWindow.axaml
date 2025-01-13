@@ -5,7 +5,7 @@
         xmlns:svg="clr-namespace:Avalonia.Svg;assembly=Avalonia.Svg"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="cockpit_runner.MainWindow"
-        Title="cockpit_runner">
+        Title="AI Cockpit Runner">
     <Grid x:Name="global">
         <Grid.RowDefinitions>
             <RowDefinition Height="1.5*" />
@@ -25,9 +25,10 @@
             </Grid.RowDefinitions>
             <Border Grid.Row="0" CornerRadius="1" BorderBrush="Gray" Background="White" BorderThickness="1">
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                    <Button VerticalAlignment="Center" Margin="5,1,0,1" Click="StartStopCockpit_Click" x:Name="StartStopCockpitBtn">Start Cockpit</Button>
+                    <Button IsEnabled="false" VerticalAlignment="Center" Margin="5,1,0,1" Click="StartStopCockpit_Click" x:Name="StartStopCockpitBtn">Start Cockpit</Button>
                     <Label VerticalAlignment="Center" Margin="5,1,0,1" FontSize="12" >Scenario</Label>
-                    <ComboBox VerticalAlignment="Center" Margin="5,1,0,1" Width="100" x:Name="SelectScenario" />
+                    <ComboBox VerticalAlignment="Center" Margin="5,1,0,1" Width="100" x:Name="SelectScenario" SelectionChanged="BinaryScenarioSelected" />
+					<ComboBox IsVisible="False" VerticalAlignment="Center" Margin="5,1,0,1" Width="100" x:Name="SelectLanguage" />
                 </StackPanel>
             </Border>
             <ScrollViewer Grid.Row="1" x:Name="ActionOutputScroller">

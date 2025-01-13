@@ -34,14 +34,29 @@ internal class GitAndCockpit
         }
     }
 
-    public List<string> GetAvailableScenarios()
+    public List<string> GetAvailableBinaryScenarios()
+    {
+        var scenarios = new List<string>();
+        string[] binaryDataFolder = { cockpitDir, "docker-compose", "scenariodata", "binary_data" };
+        var binaryDir = Path.Combine(binaryDataFolder);
+        foreach (var dir in Directory.GetDirectories(binaryDir))
+        {
+            scenarios.Add(Path.GetFileName(dir));
+        };
+
+        return scenarios;
+    }
+
+    public List<string> GetAvailableScenarioLanguages(string binaryScenario)
     {
         var scenarios = new List<string>();
         string[] folders = {cockpitDir, "docker-compose","scenariodata", "data_structures"};
         var scenarioDir = Path.Combine(folders);
-        foreach (var dir in Directory.GetDirectories(scenarioDir))
+        foreach (var dir in Directory.GetDirectories(scenarioDir, binaryScenario + "*"))
         {
-            scenarios.Add(Path.GetFileName(dir));
+            var folderName = Path.GetFileName(dir);
+            var lang = folderName.Replace(binaryScenario + "-", "");
+            scenarios.Add(Path.GetFileName(lang));
         }
         return scenarios;
     }

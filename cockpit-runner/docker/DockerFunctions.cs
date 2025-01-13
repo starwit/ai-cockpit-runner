@@ -32,6 +32,7 @@ internal class DockerFunctions()
             if (isInstalled)
             {
                 mainWindow.ActionOutput.Text += "Started Docker Desktop.";
+                mainWindow.StartStopCockpitBtn.IsEnabled = true;
             }
             else
             {
@@ -130,7 +131,7 @@ internal class DockerFunctions()
         }
     }
 
-    internal async void StartStopCockpit(bool isRunning, string scenario)
+    internal async void StartStopCockpit(bool isRunning, string scenario, string language)
     {
         string[] arguments;
         if(isRunning)
@@ -151,7 +152,8 @@ internal class DockerFunctions()
                 .WithArguments(arguments)
                 .WithWorkingDirectory(composeDirectory)
                 .WithEnvironmentVariables(env => env
-                    .Set("scenario", scenario))
+                    .Set("scenario", scenario)
+                    .Set("language", language))
                 .WithValidation(CommandResultValidation.None)
                 .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
                 .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))

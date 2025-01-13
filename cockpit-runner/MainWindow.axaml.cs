@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 using Avalonia.Controls;
@@ -28,15 +29,26 @@ public partial class MainWindow : Window
 
         df.CheckIfDockerIsInstalled();
         git.CheckIfCodeiIsPresent();
-        List<string> scenarios = git.GetAvailableScenarios();
+
+        List<string> scenarios = git.GetAvailableBinaryScenarios();
         SelectScenario.ItemsSource = scenarios;
         SelectScenario.SelectedIndex = 0;
+    }
+
+    private void BinaryScenarioSelected(object sender, SelectionChangedEventArgs e)
+    {
+        var scenario = SelectScenario.SelectedItem.ToString();
+
+        List<string> scenarioLanguages = git.GetAvailableScenarioLanguages(scenario);
+        SelectLanguage.ItemsSource = scenarioLanguages;
+        SelectLanguage.SelectedIndex = 0;
+        SelectLanguage.IsVisible = true;
     }
 
     private void StartStopCockpit_Click(object sender, RoutedEventArgs args)
     {
         df.CheckIfCockpitIsRunning();
-        df.StartStopCockpit(IsCockpitRunning, SelectScenario.SelectedItem.ToString());
+        df.StartStopCockpit(IsCockpitRunning, SelectScenario.SelectedItem.ToString(), SelectLanguage.SelectedItem.ToString());
     }
 
     public void SetStartStopBtn(bool isRunning)
@@ -71,5 +83,10 @@ public partial class MainWindow : Window
     {
         DockerName.Content = name;
         DockerVersion.Content = version;
+    }
+
+    private void Window_OnClosing(object? sender, WindowClosingEventArgs e)
+    {
+        df.StartStopCockpit(true, SelectScenario.SelectedItem.ToString(), SelectLanguage.SelectedItem.ToString());
     }
 }
