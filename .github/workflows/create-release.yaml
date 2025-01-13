@@ -7,7 +7,7 @@ on:
     inputs:
       release-version: # id of input
         description: "override default release version e.g. with 0.1.0-1"
-        required: false
+        required: true
 
 permissions:
   contents: write
@@ -38,4 +38,6 @@ jobs:
         working-directory: cockpit-runner
         run:
           gh release create ${{ env.RELEASE_VERSION }} bin/Release/net8.0/win-x64/publish/*.exe
+        env:
+          GH_TOKEN: ${{ github.token }}
 
