@@ -14,6 +14,7 @@ permissions:
 
 env:
   dotnet-version: 8.x
+  RELEASE_VERSION: ${{ github.event.inputs.release-version }}
 
 jobs:
   build:
@@ -36,8 +37,9 @@ jobs:
         run: dotnet publish --sc true -r win-x64 -c Release
       - name: Create Release
         working-directory: cockpit-runner
-        run:
-          gh release create ${{ env.RELEASE_VERSION }} bin/Release/net8.0/win-x64/publish/*.exe
+        run: |
+          echo "releasing with version ${{ env.RELEASE_VERSION }}"
+          gh release create ${{ env.RELEASE_VERSION }} ./bin/Release/net8.0/win-x64/publish/*.exe
         env:
           GH_TOKEN: ${{ github.token }}
 
