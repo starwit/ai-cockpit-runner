@@ -1,7 +1,16 @@
-name: Build latest binary
+name: Create release
+
+# Creating maven and github release
 
 on:
   workflow_dispatch:
+    inputs:
+      release-version: # id of input
+        description: "override default release version e.g. with 0.1.0-1"
+        required: false
+
+permissions:
+  contents: write
 
 env:
   dotnet-version: 8.x
@@ -25,3 +34,8 @@ jobs:
       - name: Dotnet Publish
         working-directory: cockpit-runner
         run: dotnet publish --sc true -r win-x64 -c Release
+      - name: Create Release
+        working-directory: cockpit-runner
+        run:
+          gh release create ${{ env.RELEASE_VERSION }} bin/Release/net8.0/win-x64/publish/*.exe
+
