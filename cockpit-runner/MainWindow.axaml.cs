@@ -1,14 +1,11 @@
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Text;
+using System.Diagnostics;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using CliWrap;
 using cockpit_runner.docker;
 using cockpit_runner.gitandcockpit;
-using LibGit2Sharp;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace cockpit_runner;
 
@@ -18,6 +15,7 @@ public partial class MainWindow : Window
 
     private DockerFunctions df;
     private GitAndCockpit git = new GitAndCockpit();
+    string standardTag = "0.2.10-4-kic";
 
     public MainWindow()
     {
@@ -25,10 +23,13 @@ public partial class MainWindow : Window
         df = new DockerFunctions(this);
         InitializeComponent();
         Height = 400;
-        Width = 600;
+        Width = 650;
 
         df.CheckIfDockerIsInstalled();
-        git.CheckIfCodeiIsPresent();
+        ActionOutput.Text += "Check and prepare AI Cockpit code... \n";
+        git.GetTagList(SelectTag).GetAwaiter();
+        git.CheckIfCodeiIsPresent(standardTag);
+        ActionOutput.Text += "AI Cockpit code ready\n";
 
         List<string> scenarios = git.GetAvailableBinaryScenarios();
         SelectScenario.ItemsSource = scenarios;
@@ -49,6 +50,21 @@ public partial class MainWindow : Window
     {
         df.CheckIfCockpitIsRunning();
         df.StartStopCockpit(IsCockpitRunning, SelectScenario.SelectedItem.ToString(), SelectLanguage.SelectedItem.ToString());
+    }
+
+    private async void SwitchVersion_Click(object sender, RoutedEventArgs args)
+    {
+        var alertBox = MessageBoxManager
+            .GetMessageBoxStandard("Version Switch", 
+                "This will checkout a different AI Cockpit version. All local modifications will be lost. Continue?", 
+                MsBox.Avalonia.Enums.ButtonEnum.OkCancel);
+        var result = await alertBox.ShowWindowDialogAsync(this);
+        Trace.WriteLine(result);
+        if(result.Equals(ButtonResult.Ok))
+        {
+            ActionOutput.Text += "Delete existing code and checkout tag... \n";
+            git.CheckOutTag(SelectTag.SelectedItem.ToString());
+        }
     }
 
     public void SetStartStopBtn(bool isRunning)

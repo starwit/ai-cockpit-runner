@@ -15,6 +15,10 @@
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <StartupObject>cockpit_runner.Program</StartupObject>
     <ApplicationIcon>assets\logo starwit.ico</ApplicationIcon>
+
+	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,6 +46,7 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
+    <PackageReference Include="MessageBox.Avalonia" Version="3.2.0" />
     <PackageReference Include="Svg.Skia" Version="2.0.0.4" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />	  
   </ItemGroup>
