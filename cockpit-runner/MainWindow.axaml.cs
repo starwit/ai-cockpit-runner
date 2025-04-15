@@ -31,19 +31,22 @@ public partial class MainWindow : Window
         git.CheckIfCodeiIsPresent(standardTag);
         ActionOutput.Text += "AI Cockpit code ready\n";
 
-        List<string> scenarios = git.GetAvailableBinaryScenarios();
-        SelectScenario.ItemsSource = scenarios;
-        SelectScenario.SelectedIndex = 0;
+        git.GetAvailableBinaryScenarios(SelectScenario);
+        df.CheckIfCockpitIsRunning();
     }
 
     private void BinaryScenarioSelected(object sender, SelectionChangedEventArgs e)
     {
-        var scenario = SelectScenario.SelectedItem.ToString();
+        Trace.WriteLine(string.Join(" ", SelectScenario.Items));
+        if(SelectScenario.SelectedItem != null)
+        {
+            var scenario = SelectScenario.SelectedItem.ToString();
 
-        List<string> scenarioLanguages = git.GetAvailableScenarioLanguages(scenario);
-        SelectLanguage.ItemsSource = scenarioLanguages;
-        SelectLanguage.SelectedIndex = 0;
-        SelectLanguage.IsVisible = true;
+            List<string> scenarioLanguages = git.GetAvailableScenarioLanguages(scenario);
+            SelectLanguage.ItemsSource = scenarioLanguages;
+            SelectLanguage.SelectedIndex = 0;
+            SelectLanguage.IsVisible = true;
+        }
     }
 
     private void StartStopCockpit_Click(object sender, RoutedEventArgs args)
@@ -59,11 +62,11 @@ public partial class MainWindow : Window
                 "This will checkout a different AI Cockpit version. All local modifications will be lost. Continue?", 
                 MsBox.Avalonia.Enums.ButtonEnum.OkCancel);
         var result = await alertBox.ShowWindowDialogAsync(this);
-        Trace.WriteLine(result);
         if(result.Equals(ButtonResult.Ok))
         {
             ActionOutput.Text += "Delete existing code and checkout tag... \n";
             git.CheckOutTag(SelectTag.SelectedItem.ToString());
+            git.GetAvailableBinaryScenarios(SelectScenario);
         }
     }
 
