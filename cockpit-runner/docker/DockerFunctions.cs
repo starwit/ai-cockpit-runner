@@ -17,7 +17,7 @@ internal class DockerFunctions()
 
     private string cockpitDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".aicockpit");
 
-    private MainWindow mainWindow;
+    private readonly MainWindow mainWindow;
 
     public DockerFunctions(MainWindow mainWindow): this()
     {
@@ -31,12 +31,12 @@ internal class DockerFunctions()
             var isInstalled = CheckDockerDesktop();
             if (isInstalled)
             {
-                mainWindow.ActionOutput.Text += "Started Docker Desktop.";
+                mainWindow.ActionOutput.Text += "Started Docker Desktop.\n";
                 mainWindow.StartStopCockpitBtn.IsEnabled = true;
             }
             else
             {
-                mainWindow.ActionOutput.Text += "Could not start Docker Desktop, please install.";
+                mainWindow.ActionOutput.Text += "Could not start Docker Desktop, please install.\n";
             }
         }
 
