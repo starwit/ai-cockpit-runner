@@ -98,7 +98,7 @@ internal class GitAndCockpit
         }
     }
 
-    public List<string> GetAvailableBinaryScenarios()
+    public void GetAvailableBinaryScenarios(ComboBox SelectScenario)
     {
         var scenarios = new List<string>();
         string[] binaryDataFolder = { cockpitDir, "docker-compose", "scenariodata", "binary_data" };
@@ -107,12 +107,16 @@ internal class GitAndCockpit
         {
             foreach (var dir in Directory.GetDirectories(binaryDir))
             {
+                Trace.WriteLine($"{dir}");
                 scenarios.Add(Path.GetFileName(dir));
-            };
+            }
         } catch (Exception ex) 
-        { Trace.WriteLine(ex.Message); }
+        { 
+            Trace.WriteLine(ex.Message);
+        }
 
-        return scenarios;
+        SelectScenario.ItemsSource = scenarios;
+        SelectScenario.SelectedIndex = 1;
     }
 
     public List<string> GetAvailableScenarioLanguages(string binaryScenario)
