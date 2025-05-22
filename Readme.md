@@ -26,9 +26,10 @@ You can also start software like so.
 Github start page contains a link to releases. Select latest release, download exe file and run. Application has no installation routine yet.
 
 ## Contact & Contribution
-This project was funded by the government of the federal republic of Germany. It is part of a research project aiming to keep _humans in command_ and is organized by the Federal Ministry of Labour and Social Affairs.
 
-![BMAS](doc/BMAS_Logo.svg)
+The “KI-Cockpit” (AI Cockpit) project was funded by the Federal Ministry of Labor and Social Affairs and executed by the nexus Institute, Aalen University, the University of Stuttgart, Chemistree, Caritas Dortmund & Starwit Technologies with the support of Awesome Technologies Innovationslabor, the Institute for Innovation and Technology (iit) at VDI/VDE Innovation + Technik and keytec.
+
+<img src="doc/foerderlogo.png" alt="BMAS Logo" style="width:33%; height:auto;">
 
 # License
 
